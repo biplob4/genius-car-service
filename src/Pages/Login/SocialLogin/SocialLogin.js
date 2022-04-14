@@ -5,11 +5,16 @@ import google from '../../../images/google-logo.png'
 import auth from '../../../firebase.init';
 import { useSignInWithGithub, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
+import Lodding from '../../Shared/Lodding/Lodding';
 
 const SocialLogin = () => {
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
     const [signInWithGithub, user1, loading1, error1] = useSignInWithGithub(auth);
     const navegait = useNavigate();
+
+    if(loading || loading1){
+        return <Lodding/>
+    }
 
     let errorElement;
     if (error || error1) {
@@ -28,15 +33,15 @@ const SocialLogin = () => {
             </div>
             {errorElement}
 
-            <button onClick={() => signInWithGoogle()} className=' btn btn-info w-50 d-block mx-auto'>
+            <button onClick={() => signInWithGoogle()} className=' btn btn-info w-100 d-block mx-auto'>
                 <img style={{ width: "26px", marginRight: "10px" }} src={google} alt="imaige" />
                 <span>Google Signin</span>
             </button>
-            <button className=' btn btn-info w-50 d-block mx-auto my-3'>
+            <button className=' btn btn-info w-100 d-block mx-auto my-3'>
                 <img style={{ width: "30px", marginRight: "10px" }} src={feacebook} alt="imaige" />
                 <span>Feacebook Signin</span>
             </button>
-            <button onClick={() => signInWithGithub()} className=' btn btn-info w-50 d-block mx-auto'>
+            <button onClick={() => signInWithGithub()} className=' btn btn-info w-100 d-block mx-auto'>
                 <img style={{ width: "26px", marginRight: "10px" }} src={github} alt="imaige" />
                 <span>Github Signin</span>
             </button>

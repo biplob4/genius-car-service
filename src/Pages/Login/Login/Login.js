@@ -4,6 +4,9 @@ import { useSendPasswordResetEmail, useSignInWithEmailAndPassword } from 'react-
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init';
 import SocialLogin from '../SocialLogin/SocialLogin';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Lodding from '../../Shared/Lodding/Lodding';
 
 const Login = () => {
     const [signInWithEmailAndPassword, user, loading, error,] = useSignInWithEmailAndPassword(auth);
@@ -16,6 +19,10 @@ const Login = () => {
 
     if (user) {
         navigate(from, { replace: true });
+    }
+
+    if(loading || sending ){
+        return <Lodding/>
     }
 
     let errorElement;
@@ -33,7 +40,12 @@ const Login = () => {
     const forgetPasswordHandeler = async () => {
         const email = emailRef.current.value;
         await sendPasswordResetEmail(email);
-        alert('Sent email');
+        if(email){
+            toast('Sent email');
+        }
+        else{
+            toast("Please Type Your Email")
+        }
     }
 
     const navigateRegister = event => {
@@ -41,8 +53,8 @@ const Login = () => {
     }
 
     return (
-        <div className='container w-50 mx-auto p-4 mt-5 border rounded'>
-            <h2 className='text-primary text-center mt-2'>Please Login</h2>
+        <div className='container register-form mx-auto  mt-5 border rounded'>
+            <h2 className='text-primary text-center mt-4'>Please Login</h2>
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Control ref={emailRef} type="email" placeholder="Enter email" required />
@@ -57,9 +69,10 @@ const Login = () => {
             </Form>
 
             <p>New to Genius Car? <Link to="/register" className='text-primary pe-auto text-decoration-none' onClick={navigateRegister}>Please Register</Link> </p>
-            <p>Forget Password ?<Link to="/register" className='text-primary pe-auto text-decoration-none' onClick={forgetPasswordHandeler}>Reset Password</Link> </p>
+            <p>Forget Password ?<button className='btn btn-link text-primary pe-auto text-decoration-none' onClick={forgetPasswordHandeler}>Reset Password</button> </p>
 
             <SocialLogin></SocialLogin>
+            <ToastContainer></ToastContainer>
         </div>
     );
 };
