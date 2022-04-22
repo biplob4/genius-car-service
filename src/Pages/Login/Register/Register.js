@@ -44,7 +44,6 @@ const Register = () => {
                 <label className={agree ? 'text-secondary' : 'text-danger'} htmlFor="trems">Accept Trems And Conditions</label>
 
                 <input disabled={!agree} className='btn btn-primary d-block w-50 mx-auto' type="submit" value="Register" />
-
             </form>
             <p>Already have an account? <Link to="/login" className=' text-primary pe-auto text-decoration-none' onClick={navigateLogin}>Please Login</Link> </p>
             <SocialLogin />
