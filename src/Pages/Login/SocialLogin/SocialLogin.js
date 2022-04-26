@@ -4,13 +4,15 @@ import github from '../../../images/googleLogo/github.png'
 import google from '../../../images/google-logo.png'
 import auth from '../../../firebase.init';
 import { useSignInWithGithub, useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Lodding from '../../Shared/Lodding/Lodding';
 
 const SocialLogin = () => {
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
     const [signInWithGithub, user1, loading1, error1] = useSignInWithGithub(auth);
-    const navegait = useNavigate();
+    const navigate = useNavigate();
+    const location = useLocation();
+    let from = location.state?.from?.pathname || "/";
 
     if(loading || loading1){
         return <Lodding/>
@@ -22,7 +24,7 @@ const SocialLogin = () => {
     }
 
     if (user || user1) {
-        navegait("/home")
+        navigate(from, { replace: true });
     }
     return (
         <div>
