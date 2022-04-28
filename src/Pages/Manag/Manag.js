@@ -3,23 +3,23 @@ import React, { useEffect, useState } from 'react';
 const Manag = () => {
     const [services, setServices] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:5000/service')
+        fetch('https://guarded-mesa-83047.herokuapp.com/service')
             .then(res => res.json())
             .then(data => setServices(data));
     }, [])
 
     const deleteHandeler = id => {
-        const url = `http://localhost:5000/service/${id}`
+        const url = `https://guarded-mesa-83047.herokuapp.com/service/${id}`
         const agrre = window.confirm('are you sure');
-        if(agrre){
-            fetch(url,{
-                method:"DELETE"
+        if (agrre) {
+            fetch(url, {
+                method: "DELETE"
             })
-            .then(res => res.json())
-            .then(data => {
-                const remainning = services.filter(service=>service._id !== id);
-                setServices(remainning);
-            })
+                .then(res => res.json())
+                .then(data => {
+                    const remainning = services.filter(service => service._id !== id);
+                    setServices(remainning);
+                })
         }
     }
 

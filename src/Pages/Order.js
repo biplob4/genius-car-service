@@ -13,7 +13,7 @@ const Order = () => {
     useEffect(() => {
         const getOrders = async () => {
             const email = user?.email;
-            const url = `http://localhost:5000/order?email=${email}`;
+            const url = `https://guarded-mesa-83047.herokuapp.com/order?email=${email}`;
             try {
                 const { data } = await axios.get(url, {
                     headers: {
@@ -23,8 +23,8 @@ const Order = () => {
                 setOrders(data)
             }
             catch (error) {
-                console.log(error);
-                if(error.respons.status === 401 || error.respons.status === 403){
+                // console.log(error.message);
+                if (error.response.status === 401 || error.response.status === 403) {
                     signOut(auth)
                     nevigate('/login');
                 }
@@ -32,7 +32,7 @@ const Order = () => {
         }
         getOrders();
     }, [user])
-    
+
     return (
         <div>
             <h1>your orders: {orders.length}</h1>

@@ -36,13 +36,13 @@ const Checkout = () => {
             address: e.target.address.value,
             phone: e.target.phone.value
         }
-        axios.post('http://localhost:5000/order', order)
+        axios.post('https://guarded-mesa-83047.herokuapp.com/order', order)
             .then(res => {
-               const {data} = res;
-               if(data.insertedId){
-                   toast('Your Order Is Booked !!!');
-                   e.target.reset();
-               }
+                const { data } = res;
+                if (data.insertedId) {
+                    toast('Your Order Is Booked !!!');
+                    e.target.reset();
+                }
             })
     }
 

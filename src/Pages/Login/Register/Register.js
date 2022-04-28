@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-firebase-hooks/auth';
 import './Register.css';
 import auth from '../../../firebase.init';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import Lodding from '../../Shared/Lodding/Lodding';
+import useToken from '../../Hooks/useToken';
 // import { async } from '@firebase/util';
 
 const Register = () => {
@@ -12,6 +13,9 @@ const Register = () => {
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
     const [agree, setAgree] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
+    let from = location.state?.from?.pathname || "/";
+    const [token] = useToken(user);
 
     const navigateLogin = () => {
         navigate('/login');
@@ -25,9 +29,11 @@ const Register = () => {
         // const agree = event.target.trems.checked; 
         await createUserWithEmailAndPassword(email, password);
         await updateProfile({ displayName: name });
-        navigate('/home');
     }
 
+    if (token){
+        navigate(from, { replace: true });
+    }
     if(updating || loading){
         return <Lodding/>
     }
